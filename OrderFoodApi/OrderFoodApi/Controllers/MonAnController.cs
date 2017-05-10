@@ -19,8 +19,7 @@ namespace OrderFoodApi.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetMonAns(int id)
         {
             var danhMuc = await _context.DanhMucs.Include(dm => dm.MonAns).FirstOrDefaultAsync(dm => dm.DanhMucId == id);

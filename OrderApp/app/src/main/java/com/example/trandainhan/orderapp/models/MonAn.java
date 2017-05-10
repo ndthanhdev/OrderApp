@@ -8,12 +8,12 @@ public class MonAn {
     public int monAnId;
     public String tenMonAn;
     public int gia;
-    public String moTo;
+    public String moTa;
 
-    public MonAn(int monAnId, String tenMonAn, int gia, String moTo) {
+    public MonAn(int monAnId, String tenMonAn, int gia, String moTa) {
         this.monAnId = monAnId;
         this.tenMonAn = tenMonAn;
         this.gia = gia;
-        this.moTo = moTo;
+        this.moTa = moTa;
     }
 }

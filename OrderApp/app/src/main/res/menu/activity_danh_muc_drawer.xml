@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single" android:id="@+id/menu_danhmuc">
-        <!--<item-->
-            <!--android:id="@+id/nav_camera"-->
-            <!--android:icon="@drawable/ic_menu_camera"-->
-            <!--android:title="Import" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_gallery"-->
-            <!--android:icon="@drawable/ic_menu_gallery"-->
-            <!--android:title="Gallery" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_slideshow"-->
-            <!--android:icon="@drawable/ic_menu_slideshow"-->
-            <!--android:title="Slideshow" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_manage"-->
-            <!--android:icon="@drawable/ic_menu_manage"-->
-            <!--android:title="Tools" />-->
-    </group>
-
-    <group android:id="@+id/menu_sub">
-        <item android:title="Communicate" android:orderInCategory="1000">
+    <!--<group android:checkableBehavior="single" android:id="@+id/menu_danhmuc">-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_camera"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_camera"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="Import" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_gallery"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_gallery"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="Gallery" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_slideshow"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_slideshow"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="Slideshow" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_manage"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_manage"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="Tools" />&ndash;&gt;-->
+    <!--</group>-->
+    <group>
+        <item
+            android:id="@+id/menu_danhmuc"
+            android:icon="@drawable/ic_menu_food"
+            android:orderInCategory="0"
+            android:title="Danh mục">
             <menu>
-                <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="Share" />
-                <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="Send" />
+
             </menu>
         </item>
     </group>
-
-
+    <item
+        android:id="@+id/menu_quan_ly_danh_muc"
+        android:orderInCategory="1"
+        android:title="Quản lý danh mục"></item>
+    <item
+        android:id="@+id/menu_don_hang"
+        android:orderInCategory="2"
+        android:title="Đơn hàng">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:title="Chờ xữ lý" />
+            <item
+                android:id="@+id/nav_send"
+                android:title="Đã xữ lý" />
+        </menu>
+    </item>
+    <!--<group android:orderInCategory="3">-->
+    <!--<item-->
+    <!--android:id="@+id/menu_logout"-->
+    <!--android:icon="@drawable/ic_menu_logout"-->
+    <!--android:orderInCategory="3"-->
+    <!--android:title="Đăng xuất"></item>-->
+    <!--</group>-->
 </menu>

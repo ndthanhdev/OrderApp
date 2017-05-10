@@ -1,15 +1,11 @@
 package com.example.trandainhan.orderapp;
 
 import android.app.FragmentManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
+import android.view.SubMenu;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,12 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
-import com.example.trandainhan.orderapp.adapter.MonAnAdapter;
+import com.example.trandainhan.orderapp.fragments.FoodFragment;
+import com.example.trandainhan.orderapp.fragments.QuanLyDanhMucFragment;
 import com.example.trandainhan.orderapp.models.DanhMuc;
-import com.example.trandainhan.orderapp.models.MonAn;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,20 +30,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.acl.Group;
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
 
-import static android.R.attr.id;
 import static com.example.trandainhan.orderapp.UrlList.GET_DANH_MUC;
-import static com.example.trandainhan.orderapp.UrlList.GET_MON_AN;
 
-public class DanhMucActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -58,24 +45,21 @@ public class DanhMucActivity extends AppCompatActivity
     // List
     ArrayList<DanhMuc> danhMucs;
 
-    //Adapter
-    public MonAnAdapter monAnAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_danh_muc);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -87,9 +71,6 @@ public class DanhMucActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         menu = navigationView.getMenu();
-
-        monAnAdapter = new MonAnAdapter(this, new ArrayList<MonAn>());
-
 
         new LoadDanhMucTask().execute();
     }
@@ -130,23 +111,37 @@ public class DanhMucActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        String tenDanhMuc = String.valueOf(item.getTitle());
 
-        for (DanhMuc danhMuc : danhMucs) {
-            if (danhMuc.tenDanhMuc.equals(tenDanhMuc)) {
-                // navigate to
-                FoodFragment foodFragment = FoodFragment.newInstance(String.valueOf(danhMuc.danhMucId), monAnAdapter);
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.mon_ans_frame, foodFragment).commit();
+        int id = item.getItemId();
+
+        if (id == R.id.menu_quan_ly_danh_muc) {
+
+            QuanLyDanhMucFragment quanLyDanhMucFragment = QuanLyDanhMucFragment.newInstance(this);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, quanLyDanhMucFragment).commit();
+
+        } else {
+            int groupId = item.getGroupId();
+            if (groupId == R.id.menu_danhmuc) {
+                String tenDanhMuc = String.valueOf(item.getTitle());
+
+                for (DanhMuc danhMuc : danhMucs) {
+                    if (danhMuc.tenDanhMuc.equals(tenDanhMuc)) {
+                        // navigate to
+                        FoodFragment foodFragment = FoodFragment.newInstance(danhMuc.danhMucId, this);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, foodFragment).commit();
+                        break;
+                    }
+                }
             }
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public class LoadDanhMucTask extends AsyncTask<Void, String, ArrayList<DanhMuc>> {
+    class LoadDanhMucTask extends AsyncTask<Void, String, ArrayList<DanhMuc>> {
 
         @Override
         protected ArrayList<DanhMuc> doInBackground(Void... params) {
@@ -217,18 +212,21 @@ public class DanhMucActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(ArrayList<DanhMuc> danhMucs) {
             super.onPostExecute(danhMucs);
+
             Collections.sort(danhMucs, new Comparator<DanhMuc>() {
                 @Override
                 public int compare(DanhMuc o1, DanhMuc o2) {
                     return o1.tenDanhMuc.compareTo(o2.tenDanhMuc);
                 }
             });
-            DanhMucActivity.this.danhMucs = danhMucs;
-            // start update ui
-            menu.removeGroup(R.id.menu_danhmuc);
 
+            MainActivity.this.danhMucs = danhMucs;
+
+            // start update ui
+            SubMenu subMenu = menu.findItem(R.id.menu_danhmuc).getSubMenu();
+            subMenu.removeGroup(R.id.menu_danhmuc);
             for (DanhMuc danhMuc : danhMucs) {
-                new LoadIconForMenuItemTask(menu.add(R.id.menu_danhmuc, Menu.NONE, 0, danhMuc.tenDanhMuc), danhMuc.hinh);
+                new LoadIconForMenuItemTask(subMenu.add(R.id.menu_danhmuc, Menu.NONE, 0, danhMuc.tenDanhMuc), danhMuc.hinh);
             }
         }
     }

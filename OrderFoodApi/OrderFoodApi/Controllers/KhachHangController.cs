@@ -19,15 +19,15 @@ namespace OrderFoodApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetKhachHang(string id)
+        [Route("{sdt}")]
+        public async Task<IActionResult> GetKhachHang(string sdt)
         {
-            return Json(await GetKhachHangBySdt(id));
+            return Json(await GetKhachHangBySdt(sdt));
         }
 
         [HttpPost]
         public async Task<IActionResult> DangKyKhachHang([FromBody] KhachHang khachHang)
-        {
+        {            
             if (!IsKhachHangCorrect(khachHang))
             {
                 return BadRequest("Thong tin sai");

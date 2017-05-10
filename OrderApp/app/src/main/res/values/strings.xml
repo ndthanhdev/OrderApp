@@ -9,4 +9,7 @@
     <string name="description1">Ứng dụng đặt món</string>
     <string name="description2">Phát triển ứng dụng di động</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

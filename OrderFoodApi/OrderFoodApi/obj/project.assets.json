@@ -10985,10 +10985,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\duyth\\Documents\\GitHub\\TDT-Spring-2017\\OrderFoodApi\\OrderFoodApi\\OrderFoodApi.csproj",
+      "projectUniqueName": "C:\\Users\\duyth\\Documents\\GitHub\\OrderApp\\OrderFoodApi\\OrderFoodApi\\OrderFoodApi.csproj",
       "projectName": "OrderFoodApi",
-      "projectPath": "C:\\Users\\duyth\\Documents\\GitHub\\TDT-Spring-2017\\OrderFoodApi\\OrderFoodApi\\OrderFoodApi.csproj",
-      "outputPath": "C:\\Users\\duyth\\Documents\\GitHub\\TDT-Spring-2017\\OrderFoodApi\\OrderFoodApi\\obj\\",
+      "projectPath": "C:\\Users\\duyth\\Documents\\GitHub\\OrderApp\\OrderFoodApi\\OrderFoodApi\\OrderFoodApi.csproj",
+      "outputPath": "C:\\Users\\duyth\\Documents\\GitHub\\OrderApp\\OrderFoodApi\\OrderFoodApi\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
