@@ -14,7 +14,6 @@ namespace OrderFoodApi.Migrations
                 {
                     DanhMucId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Hinh = table.Column<string>(nullable: true),
                     TenDanhMuc = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

@@ -43,8 +43,6 @@ namespace OrderFoodApi.Migrations
                     b.Property<int>("DanhMucId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Hinh");
-
                     b.Property<string>("TenDanhMuc");
 
                     b.HasKey("DanhMucId");

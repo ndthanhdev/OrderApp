@@ -37,8 +37,7 @@ namespace OrderFoodApi.Controllers
             }
             var danhMuc = new DanhMuc()
             {
-                TenDanhMuc = data.TenDanhMuc,
-                Hinh = data.Hinh
+                TenDanhMuc = data.TenDanhMuc
             };
             await _db.DanhMucs.AddAsync(danhMuc);
             await _db.SaveChangesAsync();
@@ -48,8 +47,8 @@ namespace OrderFoodApi.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateDanhMuc([FromBody] DanhMuUpdateDanhMucData data)
         {
-            var danhMucIndb = await _db.DanhMucs.FirstOrDefaultAsync(dm => dm.DanhMucId == data.DanhMucId);
-            if ((await _db.DanhMucs.FirstOrDefaultAsync(dm => dm.DanhMucId == data.DanhMucId)) == null)
+            var danhMucIndb = await _db.DanhMucs.FirstOrDefaultAsync(dm => dm.DanhMucId == data.DanhMuc.DanhMucId);
+            if ((await _db.DanhMucs.FirstOrDefaultAsync(dm => dm.DanhMucId == data.DanhMuc.DanhMucId)) == null)
             {
                 return BadRequest("Ten danh muc khong ton tai");
             }
@@ -58,8 +57,7 @@ namespace OrderFoodApi.Controllers
             {
                 return Unauthorized();
             }
-            danhMucIndb.Hinh = data.Hinh;
-            danhMucIndb.TenDanhMuc = data.TenDanhMuc;
+            danhMucIndb.TenDanhMuc = data.DanhMuc.TenDanhMuc;
             await _db.SaveChangesAsync();
             return Json(danhMucIndb);
         }
@@ -75,9 +73,7 @@ namespace OrderFoodApi.Controllers
         public class DanhMuUpdateDanhMucData
         {
             public QuanLy QuanLy { get; set; }
-            public int DanhMucId { get; set; }
-            public string TenDanhMuc { get; set; }
-            public string Hinh { get; set; }
+            public DanhMuc DanhMuc { get; set; }
         }
 
 

@@ -25,29 +25,29 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/fragment_food"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_food"
-    >
+    android:orientation="vertical">
+
     <Button
+        android:id="@+id/btnThemMonAn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Thêm món mới"
-        android:id="@+id/btnThemMonAn"
-        />
+        android:text="Thêm món mới" />
 
     <ListView
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
+        android:id="@+id/lstMonAn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lstMonAn"
-        ></ListView>
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"></ListView>
+
+    <include layout="@layout/progress" />
 
 </LinearLayout>

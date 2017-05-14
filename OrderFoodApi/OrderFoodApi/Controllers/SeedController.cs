@@ -33,7 +33,6 @@ namespace OrderFoodApi.Controllers
             var danhMuc1 = new DanhMuc()
             {
                 TenDanhMuc = "Thức uống",
-                Hinh = "icon_drink_menu"
             };
             await _context.DanhMucs.AddAsync(danhMuc1);
             await _context.MonAns.AddAsync(new MonAn()
@@ -57,7 +56,6 @@ namespace OrderFoodApi.Controllers
             var danhMuc2 = new DanhMuc()
             {
                 TenDanhMuc = "Đồ ăn",
-                Hinh = "icon_food_menu"
             };
             await _context.AddAsync(danhMuc2);
             await _context.MonAns.AddAsync(new MonAn()
@@ -80,7 +78,6 @@ namespace OrderFoodApi.Controllers
             var danhMuc3 = new DanhMuc()
             {
                 TenDanhMuc = "Lẩu",
-                Hinh = "icon_lau_menu"
             };
             await _context.AddAsync(danhMuc3);
             await _context.MonAns.AddAsync(new MonAn()

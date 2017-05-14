@@ -1,5 +1,6 @@
-package com.example.trandainhan.orderapp;
+package com.example.trandainhan.orderapp.api;
 
+import com.example.trandainhan.orderapp.UrlList;
 import com.example.trandainhan.orderapp.helpers.GsonHelper;
 import com.example.trandainhan.orderapp.helpers.OkHttpHelper;
 import com.example.trandainhan.orderapp.models.DanhMuc;
@@ -37,4 +38,17 @@ public class Api {
         }
         return null;
     }
+
+    public static DanhMuc updateDanhMuc(UpdateDanhMucForm updateDanhMucForm){
+        try {
+            String response = OkHttpHelper.post(UrlList.UPDATE_DANH_MUC,updateDanhMucForm);
+            DanhMuc danhMuc = GsonHelper.fromJson(response, DanhMuc.class);
+            return danhMuc;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+

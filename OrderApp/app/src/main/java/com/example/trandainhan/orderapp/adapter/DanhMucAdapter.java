@@ -3,10 +3,11 @@ package com.example.trandainhan.orderapp.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.LayoutRes;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.trandainhan.orderapp.R;
+import com.example.trandainhan.orderapp.api.Api;
+import com.example.trandainhan.orderapp.api.UpdateDanhMucForm;
+import com.example.trandainhan.orderapp.fragments.QuanLyDanhMucFragment;
+import com.example.trandainhan.orderapp.helpers.Storage;
 import com.example.trandainhan.orderapp.models.DanhMuc;
+import com.example.trandainhan.orderapp.models.QuanLy;
 
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 
 /**
@@ -31,9 +34,12 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
 
     public List<DanhMuc> danhMucs;
 
-    public DanhMucAdapter(@NonNull Context context, @NonNull List<DanhMuc> objects) {
+    QuanLyDanhMucFragment quanLyDanhMucFragment;
+
+    public DanhMucAdapter(@NonNull Context context, @NonNull List<DanhMuc> objects, QuanLyDanhMucFragment quanLyDanhMucFragment) {
         super(context, 0, objects);
         this.danhMucs = objects;
+        this.quanLyDanhMucFragment = quanLyDanhMucFragment;
     }
 
     @NonNull
@@ -44,7 +50,7 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_item_danhmuc, parent, false);
         }
 
-        DanhMuc item = danhMucs.get(position);
+        final DanhMuc item = danhMucs.get(position);
 
         final TextView name = (TextView) convertView.findViewById(R.id.txtDanhMucHeader);
 
@@ -65,7 +71,12 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
                 builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        String newName = input.getText().toString();
+                        if (TextUtils.isEmpty(newName)) {
+                            return;
+                        }
+                        item.tenDanhMuc = newName;
+                        new UpdateDanhMucTask(item,quanLyDanhMucFragment).execute();
                     }
                 });
 
@@ -75,5 +86,30 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
 
         return convertView;
     }
+
+    class UpdateDanhMucTask extends AsyncTask<Void, Void, Void> {
+
+        DanhMuc danhMuc;
+        QuanLyDanhMucFragment quanLyDanhMucFragment;
+
+
+        public UpdateDanhMucTask(DanhMuc danhMuc, QuanLyDanhMucFragment quanLyDanhMucFragment) {
+            this.danhMuc = danhMuc;
+            this.quanLyDanhMucFragment = quanLyDanhMucFragment;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Api.updateDanhMuc(new UpdateDanhMucForm(new QuanLy(Storage.Username, Storage.Password), danhMuc));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            quanLyDanhMucFragment.reload();
+        }
+    }
+
 }
 

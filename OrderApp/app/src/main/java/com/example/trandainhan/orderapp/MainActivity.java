@@ -15,8 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.fragments.FoodFragment;
 import com.example.trandainhan.orderapp.fragments.QuanLyDanhMucFragment;
+import com.example.trandainhan.orderapp.helpers.GsonHelper;
+import com.example.trandainhan.orderapp.helpers.OkHttpHelper;
 import com.example.trandainhan.orderapp.models.DanhMuc;
 
 import org.json.JSONArray;
@@ -33,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import static com.example.trandainhan.orderapp.UrlList.GET_DANH_MUC;
 
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     Menu menu;
 
     // List
-    ArrayList<DanhMuc> danhMucs;
+    List<DanhMuc> danhMucs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,76 +145,17 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    class LoadDanhMucTask extends AsyncTask<Void, String, ArrayList<DanhMuc>> {
+    class LoadDanhMucTask extends AsyncTask<Void, String, List<DanhMuc>> {
 
         @Override
-        protected ArrayList<DanhMuc> doInBackground(Void... params) {
+        protected List<DanhMuc> doInBackground(Void... params) {
 
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-            try {
-
-                URL url = new URL(GET_DANH_MUC);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                connection.setConnectTimeout(10);
-
-                connection.setReadTimeout(10);
-
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-
-                String jsonString = buffer.toString();
-
-
-                JSONArray jsonArray = new JSONArray(jsonString);
-
-                ArrayList<DanhMuc> danhMucs = new ArrayList<>();
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    int id = jsonObject.getInt("danhMucId");
-                    String name = jsonObject.getString("tenDanhMuc");
-                    String hinh = jsonObject.getString("hinh");
-                    DanhMuc danhMuc = new DanhMuc(id, name, hinh);
-                    danhMucs.add(danhMuc);
-                }
-
-                return danhMucs;
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return null;
+            List<DanhMuc> danhMucs = Api.GetDanhMuc();
+            return danhMucs;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<DanhMuc> danhMucs) {
+        protected void onPostExecute(List<DanhMuc> danhMucs) {
             super.onPostExecute(danhMucs);
 
             Collections.sort(danhMucs, new Comparator<DanhMuc>() {
@@ -222,38 +167,12 @@ public class MainActivity extends AppCompatActivity
 
             MainActivity.this.danhMucs = danhMucs;
 
-            // start update ui
+            // start reload ui
             SubMenu subMenu = menu.findItem(R.id.menu_danhmuc).getSubMenu();
             subMenu.removeGroup(R.id.menu_danhmuc);
             for (DanhMuc danhMuc : danhMucs) {
-                new LoadIconForMenuItemTask(subMenu.add(R.id.menu_danhmuc, Menu.NONE, 0, danhMuc.tenDanhMuc), danhMuc.hinh);
+                subMenu.add(R.id.menu_danhmuc, Menu.NONE, 0, danhMuc.tenDanhMuc);
             }
-        }
-    }
-
-    class LoadIconForMenuItemTask extends AsyncTask<Void, Integer, Drawable> {
-        MenuItem menuItem;
-        String urldisplay;
-
-        public LoadIconForMenuItemTask(MenuItem menuItem, String urldisplay) {
-            this.menuItem = menuItem;
-            this.urldisplay = urldisplay;
-        }
-
-        protected Drawable doInBackground(Void... urls) {
-            Drawable mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = Drawable.createFromStream(in, "src");
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Drawable result) {
-            menuItem.setIcon(result);
         }
     }
 }

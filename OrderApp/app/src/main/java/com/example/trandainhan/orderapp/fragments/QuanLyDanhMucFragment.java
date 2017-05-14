@@ -8,15 +8,20 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.example.trandainhan.orderapp.Api;
+import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.R;
 import com.example.trandainhan.orderapp.adapter.DanhMucAdapter;
+import com.example.trandainhan.orderapp.helpers.ViewHelper;
 import com.example.trandainhan.orderapp.models.DanhMuc;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 /**
@@ -28,6 +33,12 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class QuanLyDanhMucFragment extends Fragment {
+
+    @Bind(R.id.lstDanhMuc)
+    ListView listView;
+
+    @Bind(R.id.progress)
+    LinearLayout progress;
 
     DanhMucAdapter danhMucAdapter;
 
@@ -46,7 +57,7 @@ public class QuanLyDanhMucFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static QuanLyDanhMucFragment newInstance(Context context) {
         QuanLyDanhMucFragment fragment = new QuanLyDanhMucFragment();
-        fragment.danhMucAdapter = new DanhMucAdapter(context, new ArrayList<DanhMuc>());
+        fragment.danhMucAdapter = new DanhMucAdapter(context, new ArrayList<DanhMuc>(), fragment);
         return fragment;
     }
 
@@ -60,13 +71,16 @@ public class QuanLyDanhMucFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_quan_ly_danh_muc, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.lstDanhMuc);
+        ButterKnife.bind(this, view);
+
+        listView = (ListView) view.findViewById(R.id.lstDanhMuc);
         listView.setAdapter(danhMucAdapter);
-        new UpdateDanhMucAdapterTask(danhMucAdapter).execute();
+
+        reload();
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, reload argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -105,6 +119,10 @@ public class QuanLyDanhMucFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    public void reload() {
+        new UpdateDanhMucAdapterTask(danhMucAdapter).execute();
+    }
+
     class UpdateDanhMucAdapterTask extends AsyncTask<Void, Void, List<DanhMuc>> {
 
         DanhMucAdapter danhMucAdapter;
@@ -114,7 +132,15 @@ public class QuanLyDanhMucFragment extends Fragment {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ViewHelper.moveToFront(progress, listView);
+        }
+
+        @Override
         protected List<DanhMuc> doInBackground(Void... params) {
+
             List<DanhMuc> danhMucs = Api.GetDanhMuc();
 
             return danhMucs;
@@ -123,9 +149,12 @@ public class QuanLyDanhMucFragment extends Fragment {
         @Override
         protected void onPostExecute(List<DanhMuc> danhMucs) {
             super.onPostExecute(danhMucs);
+
             danhMucAdapter.clear();
             danhMucAdapter.addAll(danhMucs);
             danhMucAdapter.notifyDataSetChanged();
+
+            ViewHelper.moveToBack(progress, listView);
         }
     }
 }

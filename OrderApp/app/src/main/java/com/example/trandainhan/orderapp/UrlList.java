@@ -9,6 +9,7 @@ public class UrlList {
     public static final String GET_DANH_MUC = Base + "/danhmuc/getdanhmucs";
     public static final String GET_MON_AN = Base + "/monan/getmonans";
     public static final String LOGIN = Base + "/login";
+    public static final String UPDATE_DANH_MUC = Base + "/danhmuc/updatedanhmuc";
 
     public static final String LOREMPIXEL_IMAGE = "http://lorempixel.com/400/400/food/";
 }

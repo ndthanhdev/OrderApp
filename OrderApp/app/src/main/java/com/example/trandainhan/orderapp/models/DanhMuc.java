@@ -9,13 +9,11 @@ import java.util.ArrayList;
 public class DanhMuc {
     public int danhMucId;
     public String tenDanhMuc;
-    public String hinh;
     public ArrayList<MonAn> monAnArrayList;
 
     public DanhMuc(int danhMucId, String tenDanhMuc, String hinh) {
         this.danhMucId = danhMucId;
         this.tenDanhMuc = tenDanhMuc;
-        this.hinh = hinh;
         monAnArrayList = new ArrayList<MonAn>();
     }
 }

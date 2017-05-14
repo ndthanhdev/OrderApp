@@ -12,7 +12,7 @@ namespace OrderFoodApi.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DanhMucId { get; set; }
         public string TenDanhMuc { get; set; }
-        public string Hinh { get; set; }
+        //public string Hinh { get; set; }
 
         [JsonIgnore]
         public List<MonAn> MonAns { get; set; }
