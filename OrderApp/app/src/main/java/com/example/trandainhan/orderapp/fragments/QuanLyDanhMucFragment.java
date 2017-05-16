@@ -1,27 +1,40 @@
 package com.example.trandainhan.orderapp.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.trandainhan.orderapp.api.AddDanhMucForm;
 import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.R;
 import com.example.trandainhan.orderapp.adapter.DanhMucAdapter;
+import com.example.trandainhan.orderapp.api.ResponseData;
+import com.example.trandainhan.orderapp.helpers.Storage;
 import com.example.trandainhan.orderapp.helpers.ViewHelper;
 import com.example.trandainhan.orderapp.models.DanhMuc;
+import com.example.trandainhan.orderapp.models.QuanLy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.example.trandainhan.orderapp.api.Api.addDanhMuc;
 
 
 /**
@@ -34,11 +47,16 @@ import butterknife.ButterKnife;
  */
 public class QuanLyDanhMucFragment extends Fragment {
 
+    @Bind(R.id.btnAddDanhMuc)
+    Button btnAddDanhMuc;
+
     @Bind(R.id.lstDanhMuc)
     ListView listView;
 
     @Bind(R.id.progress)
     LinearLayout progress;
+
+    public Context context;
 
     DanhMucAdapter danhMucAdapter;
 
@@ -57,7 +75,8 @@ public class QuanLyDanhMucFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static QuanLyDanhMucFragment newInstance(Context context) {
         QuanLyDanhMucFragment fragment = new QuanLyDanhMucFragment();
-        fragment.danhMucAdapter = new DanhMucAdapter(context, new ArrayList<DanhMuc>(), fragment);
+        fragment.context = context;
+        fragment.danhMucAdapter = new DanhMucAdapter(fragment.context, new ArrayList<DanhMuc>(), fragment);
         return fragment;
     }
 
@@ -75,8 +94,36 @@ public class QuanLyDanhMucFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.lstDanhMuc);
         listView.setAdapter(danhMucAdapter);
-
         reload();
+
+        btnAddDanhMuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuanLyDanhMucFragment.this.context);
+                builder.setTitle("Nhập tên mới");
+                // Set up the input
+                final EditText input = new EditText(QuanLyDanhMucFragment.this.context);
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                builder.setView(input);
+
+                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = input.getText().toString();
+                        if (TextUtils.isEmpty(name)) {
+                            return;
+                        }
+                        AddDanhMucForm addDanhMucForm = new AddDanhMucForm(Storage.getQuanLy(), name);
+                        new AddDanhMucTask(addDanhMucForm).execute();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
         return view;
     }
 
@@ -123,6 +170,10 @@ public class QuanLyDanhMucFragment extends Fragment {
         new UpdateDanhMucAdapterTask(danhMucAdapter).execute();
     }
 
+    public void delete(DanhMuc danhMuc){
+        new DeleteDanhMucTask(danhMuc).execute();
+    }
+
     class UpdateDanhMucAdapterTask extends AsyncTask<Void, Void, List<DanhMuc>> {
 
         DanhMucAdapter danhMucAdapter;
@@ -155,6 +206,71 @@ public class QuanLyDanhMucFragment extends Fragment {
             danhMucAdapter.notifyDataSetChanged();
 
             ViewHelper.moveToBack(progress, listView);
+        }
+    }
+
+    class AddDanhMucTask extends AsyncTask<Void, Void, ResponseData<DanhMuc>> {
+
+        AddDanhMucForm addDanhMucForm;
+
+        public AddDanhMucTask(AddDanhMucForm addDanhMucForm) {
+            this.addDanhMucForm = addDanhMucForm;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ViewHelper.moveToFront(progress, listView);
+        }
+
+        @Override
+        protected ResponseData<DanhMuc> doInBackground(Void... params) {
+
+            ResponseData<DanhMuc> danhMucResponseData = Api.addDanhMuc(addDanhMucForm);
+            return danhMucResponseData;
+        }
+
+        @Override
+        protected void onPostExecute(ResponseData<DanhMuc> danhMucResponseData) {
+            super.onPostExecute(danhMucResponseData);
+            if (danhMucResponseData.status == 0) {
+                reload();
+            } else{
+                Toast.makeText(context, danhMucResponseData.message, Toast.LENGTH_LONG).show();
+                ViewHelper.moveToBack(progress, listView);
+            }
+        }
+    }
+
+    class DeleteDanhMucTask extends AsyncTask<Void, Void, ResponseData> {
+
+        DanhMuc danhMuc;
+
+
+        public DeleteDanhMucTask(DanhMuc danhMuc) {
+            this.danhMuc = danhMuc;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ViewHelper.moveToFront(progress, listView);
+        }
+
+        @Override
+        protected ResponseData doInBackground(Void... params) {
+            ResponseData responseData = Api.deleteDanhMuc(danhMuc.danhMucId);
+            return responseData;
+        }
+
+        @Override
+        protected void onPostExecute(ResponseData responseData) {
+            super.onPostExecute(responseData);
+            if (responseData.status == 0) {
+                reload();
+            } else {
+                Toast.makeText(getContext(), responseData.message, Toast.LENGTH_LONG);
+            }
         }
     }
 }

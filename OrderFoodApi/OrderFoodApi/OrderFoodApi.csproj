@@ -34,7 +34,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\SharedObject\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 

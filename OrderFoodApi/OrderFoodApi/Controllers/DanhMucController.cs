@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OrderFoodApi.Entity;
 using Microsoft.EntityFrameworkCore;
+using OrderFoodApi.Controllers.Shared;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,7 +34,7 @@ namespace OrderFoodApi.Controllers
         {
             if (await _db.DanhMucs.FirstOrDefaultAsync(dm => dm.TenDanhMuc == data.TenDanhMuc) != null)
             {
-                return BadRequest("Ten danh muc da ton tai");
+                return Json(new ResponseData(1, "tên danh mục đã tồn tại"));
             }
             var danhMuc = new DanhMuc()
             {
@@ -41,7 +42,7 @@ namespace OrderFoodApi.Controllers
             };
             await _db.DanhMucs.AddAsync(danhMuc);
             await _db.SaveChangesAsync();
-            return Json(danhMuc);
+            return Json(new ResponseData(0, danhMuc));
         }
 
         [HttpPost]
@@ -62,12 +63,24 @@ namespace OrderFoodApi.Controllers
             return Json(danhMucIndb);
         }
 
+        [HttpGet("{id}")]        
+        public async Task<IActionResult> Delete(int id)
+        {
+            var danhMucInDb = await _db.DanhMucs.FirstOrDefaultAsync(dm => dm.DanhMucId == id);
+            if (danhMucInDb == null)
+            {
+                return Json(new ResponseData(1, "Danh mục không tồn tại"));
+            }
+            _db.DanhMucs.Remove(danhMucInDb);
+            await _db.SaveChangesAsync();
+            return Json(new ResponseData(0));
+        }
+
 
         public class DanhMucAddDanhMucData
         {
             public QuanLy QuanLy { get; set; }
             public string TenDanhMuc { get; set; }
-            public string Hinh { get; set; }
         }
 
         public class DanhMuUpdateDanhMucData

@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.trandainhan.orderapp.R;
 import com.example.trandainhan.orderapp.api.Api;
+import com.example.trandainhan.orderapp.api.ResponseData;
 import com.example.trandainhan.orderapp.api.UpdateDanhMucForm;
 import com.example.trandainhan.orderapp.fragments.QuanLyDanhMucFragment;
 import com.example.trandainhan.orderapp.helpers.Storage;
@@ -53,6 +56,7 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
         final DanhMuc item = danhMucs.get(position);
 
         final TextView name = (TextView) convertView.findViewById(R.id.txtDanhMucHeader);
+        Button btnDelete = (Button) convertView.findViewById(R.id.btnDeleteDanhMuc);
 
         name.setText(item.tenDanhMuc);
 
@@ -63,7 +67,7 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
                 builder.setTitle("Nhập tên mới");
                 // Set up the input
                 final EditText input = new EditText(getContext());
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
 
                 builder.setView(input);
@@ -76,7 +80,7 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
                             return;
                         }
                         item.tenDanhMuc = newName;
-                        new UpdateDanhMucTask(item,quanLyDanhMucFragment).execute();
+                        new UpdateDanhMucTask(item).execute();
                     }
                 });
 
@@ -84,18 +88,24 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
             }
         });
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quanLyDanhMucFragment.delete(item);
+            }
+        });
+
+
         return convertView;
     }
 
     class UpdateDanhMucTask extends AsyncTask<Void, Void, Void> {
 
         DanhMuc danhMuc;
-        QuanLyDanhMucFragment quanLyDanhMucFragment;
 
 
-        public UpdateDanhMucTask(DanhMuc danhMuc, QuanLyDanhMucFragment quanLyDanhMucFragment) {
+        public UpdateDanhMucTask(DanhMuc danhMuc) {
             this.danhMuc = danhMuc;
-            this.quanLyDanhMucFragment = quanLyDanhMucFragment;
         }
 
         @Override
@@ -110,6 +120,7 @@ public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
             quanLyDanhMucFragment.reload();
         }
     }
+
 
 }
 

@@ -4,13 +4,24 @@
     android:layout_height="match_parent"
     tools:context="com.example.trandainhan.orderapp.fragments.QuanLyDanhMucFragment">
 
-    <ListView
-        android:id="@+id/lstDanhMuc"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </ListView>
+        <Button
+            android:id="@+id/btnAddDanhMuc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm danh mục"/>
 
-    <include layout="@layout/progress" />
+        <ListView
+            android:id="@+id/lstDanhMuc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        </ListView>
+
+        <include layout="@layout/progress" />
+    </LinearLayout>
 </FrameLayout>

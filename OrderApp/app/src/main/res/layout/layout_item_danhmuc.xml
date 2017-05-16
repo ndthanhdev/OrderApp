@@ -24,6 +24,7 @@
         android:text="Lẩu" />
 
     <Button
+        android:id="@+id/btnDeleteDanhMuc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Xóa"/>
