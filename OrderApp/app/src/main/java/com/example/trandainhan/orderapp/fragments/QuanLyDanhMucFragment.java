@@ -12,12 +12,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.trandainhan.orderapp.MainActivity;
 import com.example.trandainhan.orderapp.api.AddDanhMucForm;
 import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.R;
@@ -56,7 +58,7 @@ public class QuanLyDanhMucFragment extends Fragment {
     @Bind(R.id.progress)
     LinearLayout progress;
 
-    public Context context;
+    public MainActivity context;
 
     DanhMucAdapter danhMucAdapter;
 
@@ -73,7 +75,7 @@ public class QuanLyDanhMucFragment extends Fragment {
      * @return A new instance of fragment QuanLyDanhMucFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static QuanLyDanhMucFragment newInstance(Context context) {
+    public static QuanLyDanhMucFragment newInstance(MainActivity context) {
         QuanLyDanhMucFragment fragment = new QuanLyDanhMucFragment();
         fragment.context = context;
         fragment.danhMucAdapter = new DanhMucAdapter(fragment.context, new ArrayList<DanhMuc>(), fragment);
@@ -235,6 +237,7 @@ public class QuanLyDanhMucFragment extends Fragment {
             super.onPostExecute(danhMucResponseData);
             if (danhMucResponseData.status == 0) {
                 reload();
+                context.reload();
             } else{
                 Toast.makeText(context, danhMucResponseData.message, Toast.LENGTH_LONG).show();
                 ViewHelper.moveToBack(progress, listView);
@@ -268,6 +271,7 @@ public class QuanLyDanhMucFragment extends Fragment {
             super.onPostExecute(responseData);
             if (responseData.status == 0) {
                 reload();
+                context.reload();
             } else {
                 Toast.makeText(getContext(), responseData.message, Toast.LENGTH_LONG);
             }
