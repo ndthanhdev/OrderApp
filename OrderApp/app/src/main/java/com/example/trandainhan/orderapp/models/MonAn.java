@@ -9,11 +9,22 @@ public class MonAn {
     public String tenMonAn;
     public int gia;
     public String moTa;
+    public String hinh;
+    public int danhMucId;
 
-    public MonAn(int monAnId, String tenMonAn, int gia, String moTa) {
+    public MonAn(String tenMonAn, int gia, String moTa, String hinh, int danhMucId) {
+        this.tenMonAn = tenMonAn;
+        this.gia = gia;
+        this.moTa = moTa;
+        this.hinh = hinh;
+        this.danhMucId = danhMucId;
+    }
+
+    public MonAn(int monAnId, String tenMonAn, int gia, String moTa, String hinh) {
         this.monAnId = monAnId;
         this.tenMonAn = tenMonAn;
         this.gia = gia;
         this.moTa = moTa;
+        this.hinh = hinh;
     }
 }

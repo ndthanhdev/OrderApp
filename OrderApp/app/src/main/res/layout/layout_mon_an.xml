@@ -50,15 +50,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <requestFocus />
-
         </EditText>
 
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="end"-->
-            <!--android:text="Ok" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá : "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/txtGia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number">
+
+        </EditText>
 
     </LinearLayout>
 </ScrollView>

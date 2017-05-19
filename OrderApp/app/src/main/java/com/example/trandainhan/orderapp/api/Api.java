@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by duyth on 5/10/2017.
- */
 
 public class Api {
     public static List<MonAn> GetMonAn(int danhMucId) {
@@ -67,6 +64,42 @@ public class Api {
     public static ResponseData deleteDanhMuc(int danhMucId) {
         try {
             String response = OkHttpHelper.get(UrlList.DELETE_DANH_MUC+"/"+danhMucId);
+            ResponseData danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
+            return danhMucResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData addMonAn(AddMonAnForm addMonAnForm){
+        try {
+            String response = OkHttpHelper.post(UrlList.ADD_MON_AN, addMonAnForm);
+            ResponseData<MonAn> danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
+            return danhMucResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData updateMonAn(AddMonAnForm addMonAnForm){
+        try {
+            String response = OkHttpHelper.post(UrlList.UPDATE_MON_AN, addMonAnForm);
+            ResponseData<MonAn> danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
+            return danhMucResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData deleteMonAn(int monAnId) {
+        try {
+            String response = OkHttpHelper.get(UrlList.DELETE_MON_AN+"/"+monAnId);
             ResponseData danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
             return danhMucResponseData;
 

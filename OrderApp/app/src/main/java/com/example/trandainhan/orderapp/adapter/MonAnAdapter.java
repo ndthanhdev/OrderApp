@@ -53,7 +53,7 @@ public class MonAnAdapter extends ArrayAdapter implements Serializable {
         txtMoTa.setText(monAn.moTa);
         txtGia.setText(String.valueOf(monAn.gia));
 
-        Picasso.with(context).load(UrlList.LOREMPIXEL_IMAGE).into(imageView);
+        Picasso.with(context).load(monAn.hinh).into(imageView);
 
         return convertView;
     }

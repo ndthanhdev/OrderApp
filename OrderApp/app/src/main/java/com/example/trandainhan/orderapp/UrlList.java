@@ -12,6 +12,9 @@ public class UrlList {
     public static final String UPDATE_DANH_MUC = Base + "/danhmuc/updatedanhmuc";
     public static final String ADD_DANH_MUC = Base + "/danhmuc/adddanhmuc";
     public static final String DELETE_DANH_MUC = Base + "/danhmuc/delete";
+    public static final String ADD_MON_AN = Base + "/monan/addmonan";
+    public static final String UPDATE_MON_AN = Base + "/monan/updatemonan";
+    public static final String DELETE_MON_AN = Base + "/monan/delete";
 
     public static final String LOREMPIXEL_IMAGE = "http://lorempixel.com/400/400/food/";
 }
