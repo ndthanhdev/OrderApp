@@ -1,10 +1,8 @@
 package com.example.trandainhan.orderapp;
 
 import android.app.FragmentManager;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.SubMenu;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,29 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.trandainhan.orderapp.api.Api;
+import com.example.trandainhan.orderapp.fragments.ChoXuLyFragment;
 import com.example.trandainhan.orderapp.fragments.FoodFragment;
 import com.example.trandainhan.orderapp.fragments.QuanLyDanhMucFragment;
-import com.example.trandainhan.orderapp.helpers.GsonHelper;
-import com.example.trandainhan.orderapp.helpers.OkHttpHelper;
 import com.example.trandainhan.orderapp.models.DanhMuc;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static com.example.trandainhan.orderapp.UrlList.GET_DANH_MUC;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -124,6 +107,18 @@ public class MainActivity extends AppCompatActivity
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, quanLyDanhMucFragment).commit();
 
+        } else if (id == R.id.nav_cho_xu_ly) {
+            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
+        } else if (id == R.id.nav_dang_giao_hang) {
+            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
+        } else if (id == R.id.nav_da_xu_ly) {
+            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
         } else {
             int groupId = item.getGroupId();
             if (groupId == R.id.menu_danhmuc) {
@@ -145,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void reload(){
+    public void reload() {
         new LoadDanhMucTask().execute();
     }
 

@@ -15,6 +15,7 @@ public class UrlList {
     public static final String ADD_MON_AN = Base + "/monan/addmonan";
     public static final String UPDATE_MON_AN = Base + "/monan/updatemonan";
     public static final String DELETE_MON_AN = Base + "/monan/delete";
+    public static final String GET_DON_HANG_CHO_XU_LY = Base + "/donhang/choxuly";
 
     public static final String LOREMPIXEL_IMAGE = "http://lorempixel.com/400/400/food/";
 }

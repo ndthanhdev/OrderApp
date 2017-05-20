@@ -12,7 +12,6 @@ namespace OrderFoodApi.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DonHangId { get; set; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(Sdt))]
         public KhachHang KhachHang { get; set; }
 
@@ -20,7 +19,6 @@ namespace OrderFoodApi.Entity
 
         public TinhTrangDonHang TinhTrangDonHang { get; set; }
 
-        [JsonIgnore]
         public List<ChiTietDonHang> ChiTietDonHangs { get; set; }
     }
 }

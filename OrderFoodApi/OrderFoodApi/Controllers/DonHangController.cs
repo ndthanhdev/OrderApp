@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OrderFoodApi.Entity;
 using Microsoft.EntityFrameworkCore;
+using OrderFoodApi.Controllers.Shared;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -84,7 +85,7 @@ namespace OrderFoodApi.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateTinhTrangDonHang([FromBody] DonHangUpdateTinhTrangDonHangData data)
         {
-            if(await _db.QuanLys.FirstOrDefaultAsync(ql=>ql.QuanLyId==data.QuanLy.QuanLyId && ql.Password == data.QuanLy.Password) == null)
+            if (await _db.QuanLys.FirstOrDefaultAsync(ql => ql.QuanLyId == data.QuanLy.QuanLyId && ql.Password == data.QuanLy.Password) == null)
             {
                 return Unauthorized();
             }
@@ -96,6 +97,24 @@ namespace OrderFoodApi.Controllers
             donHangInDb.TinhTrangDonHang = data.TinhTrangMoi;
             await _db.SaveChangesAsync();
             return Json(donHangInDb);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChoXuLy()
+        {
+            var donHangs = await _db.DonHangs
+                .Include(dh => dh.ChiTietDonHangs)
+                .Include(dh => dh.KhachHang)
+                .Where(dh => dh.TinhTrangDonHang == TinhTrangDonHang.ChoXuLy)
+                .ToListAsync();
+            foreach (var dh in donHangs)
+            {
+                foreach (var ctdh in dh.ChiTietDonHangs)
+                {
+                    await _db.Entry(ctdh).Reference(m => m.MonAn).LoadAsync();
+                }
+            }
+            return Json(new ResponseData(0, donHangs));
         }
 
         private async Task<MonAn> GetMonAnById(int id)

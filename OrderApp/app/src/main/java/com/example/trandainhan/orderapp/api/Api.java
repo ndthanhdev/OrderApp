@@ -4,6 +4,7 @@ import com.example.trandainhan.orderapp.UrlList;
 import com.example.trandainhan.orderapp.helpers.GsonHelper;
 import com.example.trandainhan.orderapp.helpers.OkHttpHelper;
 import com.example.trandainhan.orderapp.models.DanhMuc;
+import com.example.trandainhan.orderapp.models.DonHang;
 import com.example.trandainhan.orderapp.models.MonAn;
 import com.google.gson.JsonSyntaxException;
 
@@ -101,6 +102,18 @@ public class Api {
         try {
             String response = OkHttpHelper.get(UrlList.DELETE_MON_AN+"/"+monAnId);
             ResponseData danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
+            return danhMucResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData<DonHang> getDonHangChoXuLy() {
+        try {
+            String response = OkHttpHelper.get(UrlList.GET_DON_HANG_CHO_XU_LY);
+            ResponseData<DonHang> danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
             return danhMucResponseData;
 
         } catch (IOException e) {

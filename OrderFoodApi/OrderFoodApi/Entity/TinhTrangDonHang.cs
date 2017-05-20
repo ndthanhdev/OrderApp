@@ -9,7 +9,7 @@ namespace OrderFoodApi.Entity
     {
         ChoXuLy,
         DangGiaoHang,
-        DaThanhToan,
+        DaXuLy,
         DaHuy
     }
 }
