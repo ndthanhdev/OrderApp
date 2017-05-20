@@ -7,8 +7,10 @@ import com.example.trandainhan.orderapp.models.DanhMuc;
 import com.example.trandainhan.orderapp.models.DonHang;
 import com.example.trandainhan.orderapp.models.MonAn;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
@@ -110,10 +112,11 @@ public class Api {
         return null;
     }
 
-    public static ResponseData<DonHang> getDonHangChoXuLy() {
+    public static ResponseData<DonHang[]> getDonHangChoXuLy() {
         try {
             String response = OkHttpHelper.get(UrlList.GET_DON_HANG_CHO_XU_LY);
-            ResponseData<DonHang> danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
+            Type type = new TypeToken<ResponseData<DonHang[]>>(){}.getType();
+            ResponseData<DonHang[]> danhMucResponseData = GsonHelper.fromJson(response, type);
             return danhMucResponseData;
 
         } catch (IOException e) {

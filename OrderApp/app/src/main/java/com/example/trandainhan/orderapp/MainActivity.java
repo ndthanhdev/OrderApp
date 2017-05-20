@@ -108,15 +108,15 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, quanLyDanhMucFragment).commit();
 
         } else if (id == R.id.nav_cho_xu_ly) {
-            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance();
+            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance(this);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
         } else if (id == R.id.nav_dang_giao_hang) {
-            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance();
+            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance(this);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
         } else if (id == R.id.nav_da_xu_ly) {
-            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance();
+            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance(this);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
         } else {

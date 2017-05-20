@@ -8,11 +8,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.trandainhan.orderapp.MainActivity;
 import com.example.trandainhan.orderapp.R;
+import com.example.trandainhan.orderapp.adapter.DonHangAdapter;
+import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.api.ResponseData;
+import com.example.trandainhan.orderapp.helpers.ViewHelper;
 import com.example.trandainhan.orderapp.models.DonHang;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +37,15 @@ import com.example.trandainhan.orderapp.models.DonHang;
  */
 public class ChoXuLyFragment extends Fragment {
 
+    @Bind(R.id.lstDonHang)
+    ListView listView;
+
+    @Bind(R.id.progress)
+    LinearLayout progress;
+
     MainActivity context;
+
+    DonHangAdapter donHangAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,9 +60,10 @@ public class ChoXuLyFragment extends Fragment {
      * @return A new instance of fragment ChoXuLyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ChoXuLyFragment newInstance() {
+    public static ChoXuLyFragment newInstance(MainActivity context) {
         ChoXuLyFragment fragment = new ChoXuLyFragment();
-
+        fragment.context = context;
+        fragment.donHangAdapter = new DonHangAdapter(context, new ArrayList<DonHang>());
         return fragment;
     }
 
@@ -57,7 +79,12 @@ public class ChoXuLyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cho_xu_ly, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_cho_xu_ly, container, false);
+        ButterKnife.bind(this, rootView);
+        listView.setAdapter(donHangAdapter);
+        reload();
+        return rootView;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -99,20 +126,40 @@ public class ChoXuLyFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    class reload extends AsyncTask<Void,Void,ResponseData<DonHang>>{
+    void reload() {
+        new ReloadTask().execute();
+    }
+
+    class ReloadTask extends AsyncTask<Void, Void, ResponseData<DonHang[]>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            ViewHelper.moveToFront(progress, listView);
         }
 
-        @Override
-        protected void onPostExecute(ResponseData<DonHang> donHangResponseData) {
-            super.onPostExecute(donHangResponseData);
-        }
 
         @Override
-        protected ResponseData<DonHang> doInBackground(Void... params) {
-            return null;
+        protected ResponseData<DonHang[]> doInBackground(Void... params) {
+
+            ResponseData<DonHang[]> responseData = Api.getDonHangChoXuLy();
+
+            return responseData;
+        }
+
+
+        @Override
+        protected void onPostExecute(ResponseData<DonHang[]> listResponseData) {
+            super.onPostExecute(listResponseData);
+
+            if (listResponseData.status != 0) {
+                Toast.makeText(context, listResponseData.message, Toast.LENGTH_SHORT).show();
+            } else {
+                donHangAdapter.donHangs.clear();
+                donHangAdapter.addAll(listResponseData.data);
+                donHangAdapter.notifyDataSetChanged();
+                ViewHelper.moveToBack(progress, listView);
+            }
+
         }
     }
 }

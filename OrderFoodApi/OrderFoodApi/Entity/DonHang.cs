@@ -15,6 +15,7 @@ namespace OrderFoodApi.Entity
         [ForeignKey(nameof(Sdt))]
         public KhachHang KhachHang { get; set; }
 
+        [JsonIgnore]
         public string Sdt { get; set; }
 
         public TinhTrangDonHang TinhTrangDonHang { get; set; }

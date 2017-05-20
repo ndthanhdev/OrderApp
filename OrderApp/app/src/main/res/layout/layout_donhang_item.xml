@@ -20,5 +20,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:text="1-1-2000"></TextView>
+    <ImageView
+        android:id="@+id/imgDonHangIcon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/ic_cho_xu_ly"/>
 
 </LinearLayout>
