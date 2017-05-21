@@ -4,7 +4,7 @@ package com.example.trandainhan.orderapp.models;
  * Created by duyth on 5/20/2017.
  */
 
-class ChiTietDonHang {
+public class ChiTietDonHang {
 
     public int chiTietDonHangId;
 

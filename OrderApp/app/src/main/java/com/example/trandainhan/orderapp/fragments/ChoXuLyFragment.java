@@ -1,5 +1,6 @@
 package com.example.trandainhan.orderapp.fragments;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -8,12 +9,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.trandainhan.orderapp.MainActivity;
 import com.example.trandainhan.orderapp.R;
+import com.example.trandainhan.orderapp.adapter.ChiTietDonHangAdapter;
 import com.example.trandainhan.orderapp.adapter.DonHangAdapter;
 import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.api.ResponseData;
@@ -83,6 +87,37 @@ public class ChoXuLyFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         listView.setAdapter(donHangAdapter);
         reload();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DonHang donHang = donHangAdapter.donHangs.get(position);
+                LayoutInflater li = LayoutInflater.from(context);
+                View promptsView = li.inflate(R.layout.layout_don_hang_chi_tiet, null);
+
+                TextView txtTenKhach = (TextView) promptsView.findViewById(R.id.txtTenKhach);
+                TextView txtSdtKhach = (TextView) promptsView.findViewById(R.id.txtSdtKhach);
+                TextView txtDiaChiKhach = (TextView) promptsView.findViewById(R.id.txtDiaChiKhach);
+                ListView listView = (ListView) promptsView.findViewById(R.id.lstChiTietDonHang);
+
+                txtTenKhach.setText(donHang.khachHang.ten);
+                txtSdtKhach.setText(donHang.khachHang.sdt);
+                txtDiaChiKhach.setText(donHang.khachHang.diaChi);
+                listView.setAdapter(new ChiTietDonHangAdapter(context, donHang.chiTietDonHangs));
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+                // set prompts.xml to alertdialog builder
+                alertDialogBuilder.setView(promptsView);
+
+                // create alert dialog
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
+        });
+
         return rootView;
 
     }
