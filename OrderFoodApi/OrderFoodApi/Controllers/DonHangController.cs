@@ -87,16 +87,16 @@ namespace OrderFoodApi.Controllers
         {
             if (await _db.QuanLys.FirstOrDefaultAsync(ql => ql.QuanLyId == data.QuanLy.QuanLyId && ql.Password == data.QuanLy.Password) == null)
             {
-                return Unauthorized();
+                return Json(new ResponseData(1, null, "Không xác thực"));
             }
             var donHangInDb = await _db.DonHangs.FirstOrDefaultAsync(dh => dh.DonHangId == data.DonHangId);
             if (donHangInDb == null)
             {
-                return NotFound("Don hang khong ton tai");
+                return Json(new ResponseData(2, null, "Đơn hàng không tồn tại"));
             }
             donHangInDb.TinhTrangDonHang = data.TinhTrangMoi;
             await _db.SaveChangesAsync();
-            return Json(donHangInDb);
+            return Json(new ResponseData(0, donHangInDb));
         }
 
         [HttpGet]

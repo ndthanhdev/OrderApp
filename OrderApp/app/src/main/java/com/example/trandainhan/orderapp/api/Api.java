@@ -66,7 +66,7 @@ public class Api {
 
     public static ResponseData deleteDanhMuc(int danhMucId) {
         try {
-            String response = OkHttpHelper.get(UrlList.DELETE_DANH_MUC+"/"+danhMucId);
+            String response = OkHttpHelper.get(UrlList.DELETE_DANH_MUC + "/" + danhMucId);
             ResponseData danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
             return danhMucResponseData;
 
@@ -76,7 +76,7 @@ public class Api {
         return null;
     }
 
-    public static ResponseData addMonAn(AddMonAnForm addMonAnForm){
+    public static ResponseData addMonAn(AddMonAnForm addMonAnForm) {
         try {
             String response = OkHttpHelper.post(UrlList.ADD_MON_AN, addMonAnForm);
             ResponseData<MonAn> danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
@@ -88,7 +88,7 @@ public class Api {
         return null;
     }
 
-    public static ResponseData updateMonAn(AddMonAnForm addMonAnForm){
+    public static ResponseData updateMonAn(AddMonAnForm addMonAnForm) {
         try {
             String response = OkHttpHelper.post(UrlList.UPDATE_MON_AN, addMonAnForm);
             ResponseData<MonAn> danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
@@ -102,7 +102,7 @@ public class Api {
 
     public static ResponseData deleteMonAn(int monAnId) {
         try {
-            String response = OkHttpHelper.get(UrlList.DELETE_MON_AN+"/"+monAnId);
+            String response = OkHttpHelper.get(UrlList.DELETE_MON_AN + "/" + monAnId);
             ResponseData danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
             return danhMucResponseData;
 
@@ -115,9 +115,24 @@ public class Api {
     public static ResponseData<DonHang[]> getDonHangChoXuLy() {
         try {
             String response = OkHttpHelper.get(UrlList.GET_DON_HANG_CHO_XU_LY);
-            Type type = new TypeToken<ResponseData<DonHang[]>>(){}.getType();
+            Type type = new TypeToken<ResponseData<DonHang[]>>() {
+            }.getType();
             ResponseData<DonHang[]> danhMucResponseData = GsonHelper.fromJson(response, type);
             return danhMucResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData<DonHang> updateTinhTrangDonHang(UpdateDanhMucForm updateDanhMucForm) {
+        try {
+            String response = OkHttpHelper.post(UrlList.UPDATE_TINH_TRANG_DON_HANG, updateDanhMucForm);
+//            Type type = new TypeToken<ResponseData<DonHang>>() {
+//            }.getType();
+            ResponseData<DonHang> donHangResponseData = GsonHelper.fromJson(response, DonHang.class);
+            return donHangResponseData;
 
         } catch (IOException e) {
             e.printStackTrace();

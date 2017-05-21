@@ -3,6 +3,7 @@ package com.example.trandainhan.orderapp.fragments;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.api.ResponseData;
 import com.example.trandainhan.orderapp.helpers.ViewHelper;
 import com.example.trandainhan.orderapp.models.DonHang;
+import com.example.trandainhan.orderapp.models.TinhTrangDonHang;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -110,11 +113,37 @@ public class ChoXuLyFragment extends Fragment {
                 // set prompts.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
 
+                // set buttons
+                alertDialogBuilder.setPositiveButton("Giao hàng", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Hủy đơn hàng", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
                 // create alert dialog
                 final AlertDialog alertDialog = alertDialogBuilder.create();
 
                 // show it
                 alertDialog.show();
+
+                final Button postitiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                final Button negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+                postitiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
             }
         });
 
@@ -197,4 +226,32 @@ public class ChoXuLyFragment extends Fragment {
 
         }
     }
+
+    class UpdateTinhTrangDonHangTask extends AsyncTask<Void,Void,ResponseData<DonHang>>{
+
+        int id;
+        TinhTrangDonHang tinhTrangDonHang;
+
+        public UpdateTinhTrangDonHangTask(int id, TinhTrangDonHang tinhTrangDonHang) {
+            this.id = id;
+            this.tinhTrangDonHang = tinhTrangDonHang;
+        }
+
+        @Override
+        protected ResponseData<DonHang> doInBackground(Void... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(ResponseData<DonHang> donHangResponseData) {
+            super.onPostExecute(donHangResponseData);
+        }
+    }
+
+
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.trandainhan.orderapp.R;
 import com.example.trandainhan.orderapp.models.DonHang;
+import com.example.trandainhan.orderapp.models.*;
 
 import java.util.List;
 
@@ -47,13 +48,13 @@ public class DonHangAdapter extends ArrayAdapter<DonHang> {
 
         txtDonHangId.setText(Integer.toString(donHang.donHangId));
         switch (donHang.tinhTrangDonHang) {
-            case 0:
+            case ChoXuLy:
                 icon.setImageResource(R.drawable.ic_cho_xu_ly);
                 break;
-            case 1:
+            case DangGiaoHang:
                 icon.setImageResource(R.drawable.ic_dang_giao_hang);
                 break;
-            case 2:
+            case DaXuLy:
                 icon.setImageResource(R.drawable.ic_da_xu_ly);
                 break;
             default:

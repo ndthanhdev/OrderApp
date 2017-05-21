@@ -10,5 +10,7 @@ public class DonHang {
     public int donHangId;
     public KhachHang khachHang;
     public List<ChiTietDonHang> chiTietDonHangs;
-    public int tinhTrangDonHang;
+    public TinhTrangDonHang tinhTrangDonHang;
 }
+
+
