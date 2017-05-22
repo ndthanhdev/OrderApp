@@ -75,6 +75,7 @@ namespace OrderFoodApi.Migrations
                 {
                     DonHangId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Ngay = table.Column<DateTime>(nullable: false),
                     Sdt = table.Column<string>(nullable: true),
                     TinhTrangDonHang = table.Column<int>(nullable: false)
                 },

@@ -1,6 +1,7 @@
 package com.example.trandainhan.orderapp.fragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,8 @@ import com.example.trandainhan.orderapp.adapter.ChiTietDonHangAdapter;
 import com.example.trandainhan.orderapp.adapter.DonHangAdapter;
 import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.api.ResponseData;
+import com.example.trandainhan.orderapp.api.UpdateTinhTrangDonHangForm;
+import com.example.trandainhan.orderapp.helpers.Storage;
 import com.example.trandainhan.orderapp.helpers.ViewHelper;
 import com.example.trandainhan.orderapp.models.DonHang;
 import com.example.trandainhan.orderapp.models.TinhTrangDonHang;
@@ -94,7 +97,7 @@ public class ChoXuLyFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DonHang donHang = donHangAdapter.donHangs.get(position);
+                final DonHang donHang = donHangAdapter.donHangs.get(position);
                 LayoutInflater li = LayoutInflater.from(context);
                 View promptsView = li.inflate(R.layout.layout_don_hang_chi_tiet, null);
 
@@ -117,14 +120,14 @@ public class ChoXuLyFragment extends Fragment {
                 alertDialogBuilder.setPositiveButton("Giao hàng", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        // leave empty
                     }
                 });
 
                 alertDialogBuilder.setNegativeButton("Hủy đơn hàng", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        // leave empty
                     }
                 });
 
@@ -140,7 +143,14 @@ public class ChoXuLyFragment extends Fragment {
                 postitiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        new GiaoHangTask(donHang.donHangId, alertDialog,postitiveButton,negativeButton).execute();
+                    }
+                });
 
+                negativeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new HuyDonHangTask(donHang.donHangId, alertDialog,postitiveButton,negativeButton).execute();
                     }
                 });
 
@@ -227,29 +237,93 @@ public class ChoXuLyFragment extends Fragment {
         }
     }
 
-    class UpdateTinhTrangDonHangTask extends AsyncTask<Void,Void,ResponseData<DonHang>>{
-
+    class GiaoHangTask extends AsyncTask<Void, Void, ResponseData<DonHang>> {
         int id;
-        TinhTrangDonHang tinhTrangDonHang;
 
-        public UpdateTinhTrangDonHangTask(int id, TinhTrangDonHang tinhTrangDonHang) {
+        Dialog dialog;
+
+        Button positive;
+        Button negative;
+
+        public GiaoHangTask(int id, Dialog dialog, Button positive, Button negative) {
             this.id = id;
-            this.tinhTrangDonHang = tinhTrangDonHang;
-        }
-
-        @Override
-        protected ResponseData<DonHang> doInBackground(Void... params) {
-            return null;
+            this.dialog = dialog;
+            this.positive = positive;
+            this.negative = negative;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            positive.setEnabled(false);
+            negative.setEnabled(false);
         }
+
+        @Override
+        protected ResponseData<DonHang> doInBackground(Void... params) {
+            ResponseData<DonHang> responseData = Api.updateTinhTrangDonHang(
+                    new UpdateTinhTrangDonHangForm(Storage.getQuanLy(), id, TinhTrangDonHang.DangGiaoHang));
+
+            return responseData;
+        }
+
 
         @Override
         protected void onPostExecute(ResponseData<DonHang> donHangResponseData) {
             super.onPostExecute(donHangResponseData);
+            if (donHangResponseData.status != 0) {
+                Toast.makeText(context, donHangResponseData.message, Toast.LENGTH_SHORT).show();
+                positive.setEnabled(true);
+                negative.setEnabled(true);
+            } else {
+                dialog.dismiss();
+                reload();
+            }
+        }
+    }
+
+    class HuyDonHangTask extends AsyncTask<Void, Void, ResponseData<DonHang>> {
+        int id;
+
+        Dialog dialog;
+
+        Button positive;
+        Button negative;
+
+        public HuyDonHangTask(int id, Dialog dialog, Button positive, Button negative) {
+            this.id = id;
+            this.dialog = dialog;
+            this.positive = positive;
+            this.negative = negative;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            positive.setEnabled(false);
+            negative.setEnabled(false);
+        }
+
+        @Override
+        protected ResponseData<DonHang> doInBackground(Void... params) {
+            ResponseData<DonHang> responseData = Api.updateTinhTrangDonHang(
+                    new UpdateTinhTrangDonHangForm(Storage.getQuanLy(), id, TinhTrangDonHang.DaHuy));
+
+            return responseData;
+        }
+
+
+        @Override
+        protected void onPostExecute(ResponseData<DonHang> donHangResponseData) {
+            super.onPostExecute(donHangResponseData);
+            if (donHangResponseData.status != 0) {
+                Toast.makeText(context, donHangResponseData.message, Toast.LENGTH_SHORT).show();
+                positive.setEnabled(true);
+                negative.setEnabled(true);
+            } else {
+                dialog.dismiss();
+                reload();
+            }
         }
     }
 

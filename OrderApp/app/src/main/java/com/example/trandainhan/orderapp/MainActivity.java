@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 import com.example.trandainhan.orderapp.api.Api;
 import com.example.trandainhan.orderapp.fragments.ChoXuLyFragment;
+import com.example.trandainhan.orderapp.fragments.DaXuLyFragment;
+import com.example.trandainhan.orderapp.fragments.DangGiaoHangFragment;
 import com.example.trandainhan.orderapp.fragments.FoodFragment;
 import com.example.trandainhan.orderapp.fragments.QuanLyDanhMucFragment;
 import com.example.trandainhan.orderapp.models.DanhMuc;
@@ -22,6 +24,8 @@ import com.example.trandainhan.orderapp.models.DanhMuc;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import layout.WelcomeFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,20 +43,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        WelcomeFragment welcomeFragment = WelcomeFragment.newInstance(this);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, welcomeFragment).commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -61,6 +60,7 @@ public class MainActivity extends AppCompatActivity
 
         reload();
     }
+
 
     @Override
     public void onBackPressed() {
@@ -102,23 +102,21 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_quan_ly_danh_muc) {
-
             QuanLyDanhMucFragment quanLyDanhMucFragment = QuanLyDanhMucFragment.newInstance(this);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, quanLyDanhMucFragment).commit();
-
         } else if (id == R.id.nav_cho_xu_ly) {
             ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance(this);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
         } else if (id == R.id.nav_dang_giao_hang) {
-            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance(this);
+            DangGiaoHangFragment dangGiaoHangFragment = DangGiaoHangFragment.newInstance(this);
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, dangGiaoHangFragment).commit();
         } else if (id == R.id.nav_da_xu_ly) {
-            ChoXuLyFragment choXuLyFragment = ChoXuLyFragment.newInstance(this);
+            DaXuLyFragment daXuLyFragment = DaXuLyFragment.newInstance(this);
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, choXuLyFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, daXuLyFragment).commit();
         } else {
             int groupId = item.getGroupId();
             if (groupId == R.id.menu_danhmuc) {

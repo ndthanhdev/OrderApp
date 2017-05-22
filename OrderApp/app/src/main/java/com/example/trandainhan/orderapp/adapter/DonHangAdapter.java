@@ -1,8 +1,6 @@
 package com.example.trandainhan.orderapp.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.trandainhan.orderapp.R;
+import com.example.trandainhan.orderapp.helpers.DateHelper;
 import com.example.trandainhan.orderapp.models.DonHang;
-import com.example.trandainhan.orderapp.models.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,9 +43,11 @@ public class DonHangAdapter extends ArrayAdapter<DonHang> {
         DonHang donHang = donHangs.get(position);
 
         TextView txtDonHangId = (TextView) convertView.findViewById(R.id.txtMaDonHang);
+        TextView txtNgay = (TextView) convertView.findViewById(R.id.txtNgay);
         ImageView icon = (ImageView) convertView.findViewById(R.id.imgDonHangIcon);
 
         txtDonHangId.setText(Integer.toString(donHang.donHangId));
+        txtNgay.setText(DateHelper.dateToString(donHang.ngay));
         switch (donHang.tinhTrangDonHang) {
             case ChoXuLy:
                 icon.setImageResource(R.drawable.ic_cho_xu_ly);
@@ -54,7 +55,7 @@ public class DonHangAdapter extends ArrayAdapter<DonHang> {
             case DangGiaoHang:
                 icon.setImageResource(R.drawable.ic_dang_giao_hang);
                 break;
-            case DaXuLy:
+            case DaGiao:
                 icon.setImageResource(R.drawable.ic_da_xu_ly);
                 break;
             default:

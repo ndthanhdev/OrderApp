@@ -126,13 +126,55 @@ public class Api {
         return null;
     }
 
-    public static ResponseData<DonHang> updateTinhTrangDonHang(UpdateDanhMucForm updateDanhMucForm) {
+    public static ResponseData<DonHang> updateTinhTrangDonHang(UpdateTinhTrangDonHangForm updateTinhTrangDonHangForm) {
         try {
-            String response = OkHttpHelper.post(UrlList.UPDATE_TINH_TRANG_DON_HANG, updateDanhMucForm);
-//            Type type = new TypeToken<ResponseData<DonHang>>() {
-//            }.getType();
-            ResponseData<DonHang> donHangResponseData = GsonHelper.fromJson(response, DonHang.class);
+            String response = OkHttpHelper.post(UrlList.UPDATE_TINH_TRANG_DON_HANG, updateTinhTrangDonHangForm);
+            Type type = new TypeToken<ResponseData<DonHang>>() {
+            }.getType();
+            ResponseData<DonHang> donHangResponseData = GsonHelper.fromJson(response, type);
             return donHangResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData<DonHang[]> getDonHangDangGiao() {
+        try {
+            String response = OkHttpHelper.get(UrlList.GET_DON_HANG_DANG_GIAO);
+            Type type = new TypeToken<ResponseData<DonHang[]>>() {
+            }.getType();
+            ResponseData<DonHang[]> danhMucResponseData = GsonHelper.fromJson(response, type);
+            return danhMucResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData<DonHang[]> getDonHangDaXuLy() {
+        try {
+            String response = OkHttpHelper.get(UrlList.GET_DON_HANG_DA_XU_LY);
+            Type type = new TypeToken<ResponseData<DonHang[]>>() {
+            }.getType();
+            ResponseData<DonHang[]> danhMucResponseData = GsonHelper.fromJson(response, type);
+            return danhMucResponseData;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResponseData deleteDonHang(int id) {
+        try {
+            String response = OkHttpHelper.get(UrlList.DELETE_DON_HANG + "/" + Integer.toString(id));
+            ResponseData danhMucResponseData = GsonHelper.fromJson(response, ResponseData.class);
+            return danhMucResponseData;
 
         } catch (IOException e) {
             e.printStackTrace();

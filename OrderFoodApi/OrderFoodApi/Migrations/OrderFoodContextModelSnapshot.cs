@@ -55,6 +55,8 @@ namespace OrderFoodApi.Migrations
                     b.Property<int>("DonHangId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Ngay");
+
                     b.Property<string>("Sdt");
 
                     b.Property<int>("TinhTrangDonHang");
@@ -118,7 +120,7 @@ namespace OrderFoodApi.Migrations
 
             modelBuilder.Entity("OrderFoodApi.Entity.ChiTietDonHang", b =>
                 {
-                    b.HasOne("OrderFoodApi.Entity.DonHang", "DonHang")
+                    b.HasOne("OrderFoodApi.Entity.DonHang")
                         .WithMany("ChiTietDonHangs")
                         .HasForeignKey("DonHangId")
                         .OnDelete(DeleteBehavior.Cascade);

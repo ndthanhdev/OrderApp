@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,8 +19,19 @@ namespace OrderFoodApi.Entity
         [JsonIgnore]
         public string Sdt { get; set; }
 
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public DateTime Ngay { get; set; }
+
         public TinhTrangDonHang TinhTrangDonHang { get; set; }
 
         public List<ChiTietDonHang> ChiTietDonHangs { get; set; }
+    }
+
+    public class CustomDateTimeConverter : IsoDateTimeConverter
+    {
+        public CustomDateTimeConverter()
+        {
+            base.DateTimeFormat = "dd-MM-yyyy";
+        }
     }
 }

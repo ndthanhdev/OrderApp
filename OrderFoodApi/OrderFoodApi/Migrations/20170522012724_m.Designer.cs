@@ -9,7 +9,7 @@ using OrderFoodApi.Entity;
 namespace OrderFoodApi.Migrations
 {
     [DbContext(typeof(OrderFoodContext))]
-    [Migration("20170514163853_m")]
+    [Migration("20170522012724_m")]
     partial class m
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,8 @@ namespace OrderFoodApi.Migrations
                 {
                     b.Property<int>("DonHangId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Ngay");
 
                     b.Property<string>("Sdt");
 
@@ -119,7 +121,7 @@ namespace OrderFoodApi.Migrations
 
             modelBuilder.Entity("OrderFoodApi.Entity.ChiTietDonHang", b =>
                 {
-                    b.HasOne("OrderFoodApi.Entity.DonHang", "DonHang")
+                    b.HasOne("OrderFoodApi.Entity.DonHang")
                         .WithMany("ChiTietDonHangs")
                         .HasForeignKey("DonHangId")
                         .OnDelete(DeleteBehavior.Cascade);

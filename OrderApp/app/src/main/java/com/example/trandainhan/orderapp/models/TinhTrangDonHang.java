@@ -8,7 +8,7 @@ public enum TinhTrangDonHang {
     @SerializedName("1")
     DangGiaoHang(1),
     @SerializedName("2")
-    DaXuLy(2),
+    DaGiao(2),
     @SerializedName("3")
     DaHuy(3);
 

@@ -60,11 +60,15 @@ namespace OrderFoodApi.Controllers
             _context.KhachHangs.Add(khachHang);
             await _context.SaveChangesAsync();
 
-            DonHang donHang = new DonHang()
+            for (int i = 0; i < 10; i++)
             {
-                Sdt = "0123456789",
-                TinhTrangDonHang = TinhTrangDonHang.ChoXuLy,
-                ChiTietDonHangs = new List<ChiTietDonHang>()
+
+                DonHang donHang = new DonHang()
+                {
+                    Sdt = "0123456789",
+                    TinhTrangDonHang = TinhTrangDonHang.ChoXuLy,
+                    Ngay = new DateTime(2017, 4, 30),
+                    ChiTietDonHangs = new List<ChiTietDonHang>()
                 {
                     new ChiTietDonHang()
                     {
@@ -79,10 +83,11 @@ namespace OrderFoodApi.Controllers
                         SoLuong=2
                     }
                 }
-            };
+                };
 
-            await _context.DonHangs.AddAsync(donHang);
-            await _context.SaveChangesAsync();
+                await _context.DonHangs.AddAsync(donHang);
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task InnerSeedDanhMucMonAn()
@@ -103,6 +108,7 @@ namespace OrderFoodApi.Controllers
                 TenMonAn = "Cà phê sữa",
                 Gia = 10000,
                 MoTa = "Cà phê từ ngũ cốc rang cháy + sữa hết date bao ung thư",
+                Hinh = "http://lorempixel.com/400/400/food",
                 DanhMuc = danhMuc1
             });
             await _context.MonAns.AddAsync(new MonAn()
@@ -110,6 +116,7 @@ namespace OrderFoodApi.Controllers
                 TenMonAn = "Sữa tươi",
                 Gia = 10000,
                 MoTa = "Sữa chứa melamin",
+                Hinh = "http://lorempixel.com/400/400/food",
                 DanhMuc = danhMuc1
             });
 
@@ -125,8 +132,8 @@ namespace OrderFoodApi.Controllers
             {
                 TenMonAn = "Bánh mì ốp la",
                 Gia = 10000,
-                MoTa = "Bánh mì mốc + trứng made in China"
-                ,
+                MoTa = "Bánh mì mốc + trứng made in China",
+                Hinh = "http://lorempixel.com/400/400/food",
                 DanhMuc = danhMuc2
             });
             await _context.MonAns.AddAsync(new MonAn()
@@ -134,6 +141,7 @@ namespace OrderFoodApi.Controllers
                 TenMonAn = "Mì tôm",
                 Gia = 10000,
                 MoTa = "Mì thoy ko có tôm đâu ahihi",
+                Hinh = "http://lorempixel.com/400/400/food",
                 DanhMuc = danhMuc2
             });
 
@@ -148,6 +156,7 @@ namespace OrderFoodApi.Controllers
                 TenMonAn = "Lẩu hải sản",
                 Gia = 10000,
                 MoTa = "lẩu từ Hải sản tươi sống Vũng Áng",
+                Hinh = "http://lorempixel.com/400/400/food",
                 DanhMuc = danhMuc3
             });
 

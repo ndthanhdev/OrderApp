@@ -33,6 +33,7 @@ namespace OrderFoodApi.Controllers
                 {
                     Sdt = data.Sdt,
                     TinhTrangDonHang = TinhTrangDonHang.ChoXuLy,
+                    Ngay = DateTime.Now,
                     ChiTietDonHangs = new List<ChiTietDonHang>()
                 };
                 List<Task> tasks = new List<Task>();
@@ -115,6 +116,58 @@ namespace OrderFoodApi.Controllers
                 }
             }
             return Json(new ResponseData(0, donHangs));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DangGiao()
+        {
+            var donHangs = await _db.DonHangs
+                .Include(dh => dh.ChiTietDonHangs)
+                .Include(dh => dh.KhachHang)
+                .Where(dh => dh.TinhTrangDonHang == TinhTrangDonHang.DangGiaoHang)
+                .ToListAsync();
+            foreach (var dh in donHangs)
+            {
+                foreach (var ctdh in dh.ChiTietDonHangs)
+                {
+                    await _db.Entry(ctdh).Reference(m => m.MonAn).LoadAsync();
+                }
+            }
+            return Json(new ResponseData(0, donHangs));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DaXuLy()
+        {
+            var donHangs = await _db.DonHangs
+                .Include(dh => dh.ChiTietDonHangs)
+                .Include(dh => dh.KhachHang)
+                .Where(dh => dh.TinhTrangDonHang == TinhTrangDonHang.DaGiao || dh.TinhTrangDonHang == TinhTrangDonHang.DaHuy)
+                .ToListAsync();
+            foreach (var dh in donHangs)
+            {
+                foreach (var ctdh in dh.ChiTietDonHangs)
+                {
+                    await _db.Entry(ctdh).Reference(m => m.MonAn).LoadAsync();
+                }
+            }
+            return Json(new ResponseData(0, donHangs));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var innerDonHang = await _db.DonHangs.FirstOrDefaultAsync(dh => dh.DonHangId == id);
+            if (innerDonHang == null)
+            {
+                return Json(new ResponseData(1, null, "Đơn hàng không tồn tại"));
+            }
+            else
+            {
+                _db.DonHangs.Remove(innerDonHang);
+                await _db.SaveChangesAsync();
+                return Json(new ResponseData(0));
+            }
         }
 
         private async Task<MonAn> GetMonAnById(int id)
