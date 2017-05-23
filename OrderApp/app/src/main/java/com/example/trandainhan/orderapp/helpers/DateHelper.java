@@ -2,9 +2,6 @@ package com.example.trandainhan.orderapp.helpers;
 
 import java.util.Date;
 
-/**
- * Created by duyth on 5/22/2017.
- */
 
 public class DateHelper {
 

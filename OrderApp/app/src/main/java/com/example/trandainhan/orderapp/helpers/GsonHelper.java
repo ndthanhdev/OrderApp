@@ -5,9 +5,6 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Type;
 
-/**
- * Created by duyth on 5/5/2017.
- */
 
 public class GsonHelper {
 

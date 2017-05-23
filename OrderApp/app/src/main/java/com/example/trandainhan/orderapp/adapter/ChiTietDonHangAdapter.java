@@ -15,9 +15,6 @@ import com.example.trandainhan.orderapp.models.ChiTietDonHang;
 
 import java.util.List;
 
-/**
- * Created by duyth on 5/21/2017.
- */
 
 public class ChiTietDonHangAdapter extends ArrayAdapter<ChiTietDonHang> {
 

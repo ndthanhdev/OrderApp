@@ -1,8 +1,5 @@
 package com.example.trandainhan.orderapp.models;
 
-/**
- * Created by duyth on 5/8/2017.
- */
 
 public class QuanLy {
     public String QuanLyId;

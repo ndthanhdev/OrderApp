@@ -2,9 +2,6 @@ package com.example.trandainhan.orderapp.helpers;
 
 import android.view.View;
 
-/**
- * Created by duyth on 5/14/2017.
- */
 
 public class ViewHelper {
     public static void moveToFront(View selectedView, View... prViews) {

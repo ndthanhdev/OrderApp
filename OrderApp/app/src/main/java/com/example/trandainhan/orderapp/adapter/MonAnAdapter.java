@@ -19,9 +19,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by TranDaiNhan on 5/4/2017.
- */
 
 public class MonAnAdapter extends ArrayAdapter implements Serializable {
 

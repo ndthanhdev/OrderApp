@@ -1,8 +1,5 @@
 package com.example.trandainhan.orderapp.models;
 
-/**
- * Created by TranDaiNhan on 5/4/2017.
- */
 
 public class MonAn {
     public int monAnId;

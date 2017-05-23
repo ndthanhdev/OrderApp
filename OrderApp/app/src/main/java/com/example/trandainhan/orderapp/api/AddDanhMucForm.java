@@ -2,9 +2,6 @@ package com.example.trandainhan.orderapp.api;
 
 import com.example.trandainhan.orderapp.models.QuanLy;
 
-/**
- * Created by duyth on 5/16/2017.
- */
 
 public class AddDanhMucForm {
     public QuanLy quanLy;

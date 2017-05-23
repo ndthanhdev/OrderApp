@@ -1,8 +1,5 @@
 package com.example.trandainhan.orderapp.api;
 
-/**
- * Created by duyth on 5/16/2017.
- */
 
 public class ResponseData<T> {
     public int status;

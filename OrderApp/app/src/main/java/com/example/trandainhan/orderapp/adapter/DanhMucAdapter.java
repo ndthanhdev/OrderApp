@@ -29,10 +29,6 @@ import com.example.trandainhan.orderapp.models.QuanLy;
 import java.util.List;
 
 
-/**
- * Created by duyth on 5/10/2017.
- */
-
 public class DanhMucAdapter extends ArrayAdapter<DanhMuc> {
 
     public List<DanhMuc> danhMucs;

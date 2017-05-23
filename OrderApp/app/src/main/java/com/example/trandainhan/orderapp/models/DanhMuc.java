@@ -2,9 +2,6 @@ package com.example.trandainhan.orderapp.models;
 
 import java.util.ArrayList;
 
-/**
- * Created by TranDaiNhan on 5/4/2017.
- */
 
 public class DanhMuc {
     public int danhMucId;
