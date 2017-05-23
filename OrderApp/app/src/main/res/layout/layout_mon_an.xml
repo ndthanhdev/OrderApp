@@ -8,63 +8,67 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tên món : "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-            android:id="@+id/txtDialogMonAnTen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <requestFocus />
-
-        </EditText>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mô tả : "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-            android:id="@+id/txtDialogMonAnMoTa"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:gravity="start"
-            android:lines="8">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
-        </EditText>
+            <EditText
+                android:id="@+id/txtDialogMonAnTen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tên món">
+                <requestFocus />
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hình : "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-            android:id="@+id/txtDialogMonAnHinh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </EditText>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Giá : "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-            android:id="@+id/txtGia"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
-        </EditText>
+            <EditText
+                android:id="@+id/txtDialogMonAnHinh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="HÌnh" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/txtGia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Giá"
+                android:inputType="number">
+
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/txtDialogMonAnMoTa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="Mô tả"
+                android:inputType="textMultiLine"
+                android:lines="3" />
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 </ScrollView>

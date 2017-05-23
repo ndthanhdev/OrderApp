@@ -1,4 +1,4 @@
-package layout;
+package com.example.trandainhan.orderapp.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
